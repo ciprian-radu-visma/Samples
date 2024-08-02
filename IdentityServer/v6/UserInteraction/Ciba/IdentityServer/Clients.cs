@@ -20,9 +20,11 @@ namespace IdentityServerHost
                 {
                     ClientId = "ciba",
                     ClientName = "CIBA Client",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    // ClientSecrets = { new Secret("secret".Sha256()) },
+                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.Ciba,
                     RequireConsent = true,
+                    RequireDPoP = true,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {

@@ -2,9 +2,7 @@ using Clients;
 using IdentityModel;
 using IdentityModel.Client;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,8 +39,8 @@ namespace ConsoleCibaClient
             {
                 Address = cibaEp,
                 ClientId = "ciba",
-                ClientSecret = "secret",
-                Scope = "openid profile scope1 offline_access",
+                // ClientSecret = "secret",
+                Scope = "openid profile scope1",
                 LoginHint = username,
                 //IdTokenHint = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkYyNjZCQzA3NTFBNjIyNDkzMzFDMzI4QUQ1RkIwMkJGIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwibmJmIjoxNjM4NDc3MDE2LCJpYXQiOjE2Mzg0NzcwMTYsImV4cCI6MTYzODQ3NzMxNiwiYXVkIjoiY2liYSIsImFtciI6WyJwd2QiXSwiYXRfaGFzaCI6ImE1angwelVQZ2twczBVS1J5VjBUWmciLCJzaWQiOiIzQTJDQTJDNjdBNTAwQ0I2REY1QzEyRUZDMzlCQTI2MiIsInN1YiI6IjgxODcyNyIsImF1dGhfdGltZSI6MTYzODQ3NzAwOCwiaWRwIjoibG9jYWwifQ.GAIHXYgEtXw5NasR0zPMW3jSKBuWujzwwnXJnfHdulKX-I3r47N0iqHm5v5V0xfLYdrmntjLgmdm0DSvdXswtZ1dh96DqS1zVm6yQ2V0zsA2u8uOt1RG8qtjd5z4Gb_wTvks4rbUiwi008FOZfRuqbMJJDSscy_YdEJqyQahdzkcUnWZwdbY8L2RUTxlAAWQxktpIbaFnxfr8PFQpyTcyQyw0b7xmYd9ogR7JyOff7IJIHPDur0wbRdpI1FDE_VVCgoze8GVAbVxXPtj4CtWHAv07MJxa9SdA_N-lBcrZ3PHTKQ5t1gFXwdQvp3togUJl33mJSru3lqfK36pn8y8ow",
                 BindingMessage = bindingMessage,
@@ -80,8 +78,9 @@ namespace ConsoleCibaClient
                 {
                     Address = disco.TokenEndpoint,
                     ClientId = "ciba",
-                    ClientSecret = "secret",
-                    AuthenticationRequestId = authorizeResponse.AuthenticationRequestId
+                    // ClientSecret = "secret",
+                    AuthenticationRequestId = authorizeResponse.AuthenticationRequestId,
+                    Headers = { { "DPoP", DPoPHeaderGenerator.CreateDPoPHeaderValue("POST", disco.TokenEndpoint) } }
                 });
 
                 if (response.IsError)
